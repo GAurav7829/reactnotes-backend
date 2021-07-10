@@ -21,7 +21,7 @@ public class NotesService {
 	}
 	
 	public Note findById(Long id) {
-		return repo.getById(id);
+		return repo.findById(id).get();
 	}
 	public void deleteById(Long id) {
 		repo.deleteById(id);
