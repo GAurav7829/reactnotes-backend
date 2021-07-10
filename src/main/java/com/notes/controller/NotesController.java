@@ -17,33 +17,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.notes.entity.Note;
 import com.notes.repository.NotesRepository;
+import com.notes.service.NotesService;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin("*")
 public class NotesController {
 	@Autowired
-	NotesRepository repo;
+	NotesService service;
 	
 	@GetMapping("/notes")
 	public ResponseEntity<List<Note>> readNotes(){
-		return new ResponseEntity<List<Note>>(repo.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Note>>(service.findAll(), HttpStatus.OK);
 	}
 	@PostMapping("/notes")
 	public ResponseEntity<Note> createNote(@RequestBody Note note){
-		return new ResponseEntity<Note>(repo.save(note),HttpStatus.CREATED);
+		return new ResponseEntity<Note>(service.save(note),HttpStatus.CREATED);
 	}
 	@GetMapping("/notes/{id}")
 	public ResponseEntity<Note> readNote(@PathVariable Long id){
-		return new ResponseEntity<Note>(repo.findById(id).get(),HttpStatus.OK);
+		return new ResponseEntity<Note>(service.findById(id),HttpStatus.OK);
 	}
 	@DeleteMapping("/notes/{id}")
 	public ResponseEntity<HttpStatus> deleteNote(@PathVariable Long id){
-		repo.deleteById(id);
+		service.deleteById(id);
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 	}
 	@PutMapping("/notes")
 	public ResponseEntity<Note> updateNote(@RequestBody Note note){
-		return new ResponseEntity<Note>(repo.save(note),HttpStatus.OK);
+		return new ResponseEntity<Note>(service.save(note),HttpStatus.OK);
 	}
 }
